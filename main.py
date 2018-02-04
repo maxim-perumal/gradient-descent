@@ -1,27 +1,26 @@
 import random
 from math_function import *
 
-scale = 10
-
 f1 = polynomial_deg4(1,1,-13,-1,12)
-x1 = random.randint(-3*scale,-1*scale)
-x2 = random.randint(1*scale,3*scale)
 
-step = 1000
-accuracy = 0.01
+random_point = [random.randint(-10,10),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10)]
+j = 0
 
-while (step > accuracy):
-    if (f1.derivative(x1) > 0):
-        x1 -= step
-    elif (f1.derivative(x1) < 0):
-        x1 += step
-    if (f1.derivative(x2) > 0):
-        x2 -= step
-    elif (f1.derivative(x2) < 0):
-        x2 += step
-    step -= accuracy
+while (j < len(random_point)):
+    step = 1
+    previous_state = -1 # -1 mean no previous state
 
-if (f1.y(x1) - f1.y(x2) < 0):
-    print(x1)
-else:
-    print(x2)
+    for i in range(0,20) :
+        if (f1.derivative(random_point[j]) > 0):
+            if (previous_state == 0):
+                step = step/2
+            random_point[j] -= step
+            previous_state = 1
+        elif (f1.derivative(random_point[j]) < 0):
+            if (previous_state == 1):
+                step = step/2
+            random_point[j] += step
+            previous_state = 0
+    j += 1
+
+print (random_point)
